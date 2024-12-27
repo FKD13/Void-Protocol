@@ -1,8 +1,48 @@
-[gd_scene load_steps=2 format=3 uid="uid://h0aetvmb4fpc"]
+[gd_scene load_steps=6 format=3 uid="uid://h0aetvmb4fpc"]
 
 [ext_resource type="PackedScene" uid="uid://hcfc0itylfhd" path="res://ship.tscn" id="1_mhsl7"]
+[ext_resource type="Script" path="res://root.gd" id="1_v85q6"]
+[ext_resource type="Script" path="res://free_cam.gd" id="2_n7a5q"]
+[ext_resource type="Shader" path="res://background_space_shader.gdshader" id="5_68052"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3b7fc"]
+shader = ExtResource("5_68052")
+shader_parameter/iterations = 17
+shader_parameter/formuparam = 0.53
+shader_parameter/volsteps = 10
+shader_parameter/stepsize = 0.1
+shader_parameter/zoom = 0.8
+shader_parameter/tile = 0.85
+shader_parameter/speed = 0.0
+shader_parameter/brightness = 0.0015
+shader_parameter/darkmatter = 0.3
+shader_parameter/distfading = 0.73
+shader_parameter/saturation = 0.85
+shader_parameter/rotation = null
+shader_parameter/colorampMix = 0.5
+shader_parameter/isColoramp = null
+shader_parameter/camera_position = Vector2(0, 0)
 
 [node name="Node2D" type="Node2D"]
+script = ExtResource("1_v85q6")
 
 [node name="Ship" parent="." instance=ExtResource("1_mhsl7")]
 position = Vector2(1078, 622)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+material = SubResource("ShaderMaterial_3b7fc")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FreeCam" type="Node2D" parent="."]
+position = Vector2(731, 438)
+script = ExtResource("2_n7a5q")
+metadata/_edit_group_ = true
+
+[node name="Camera2D" type="Camera2D" parent="FreeCam"]
