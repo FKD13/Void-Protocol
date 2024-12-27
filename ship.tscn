@@ -2,15 +2,19 @@
 
 [ext_resource type="Script" path="res://rigid_body_2d.gd" id="1_pmm3k"]
 
-[node name="Ship" type="Node2D"]
-
-[node name="RigidBody2D" type="RigidBody2D" parent="."]
+[node name="Ship" type="RigidBody2D"]
+mass = 4.0
 script = ExtResource("1_pmm3k")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="RigidBody2D"]
-scale = Vector2(5, 5)
-polygon = PackedVector2Array(-3, 4, 0, -6, 3, 4, 0, 2)
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+scale = Vector2(10, 10)
+polygon = PackedVector2Array(-4, -3, 6, 0, -4, 3, -2, 0)
 
-[node name="Polygon2D" type="Polygon2D" parent="RigidBody2D"]
-scale = Vector2(5, 5)
-polygon = PackedVector2Array(0, -6, 3, 4, 0, 2, -3, 4)
+[node name="Polygon2D" type="Polygon2D" parent="."]
+scale = Vector2(10, 10)
+polygon = PackedVector2Array(6, 0, -4, 3, -2, 0, -4, -3)
+
+[node name="Barrel" type="Polygon2D" parent="."]
+scale = Vector2(2, 2)
+color = Color(0.587078, 0.587078, 0.587078, 1)
+polygon = PackedVector2Array(9, 1, -1, 1, -1, -1, 9, -1)

@@ -1,5 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://h0aetvmb4fpc"]
 
+[ext_resource type="Script" path="res://local_input.gd" id="1_6k4b0"]
 [ext_resource type="PackedScene" uid="uid://hcfc0itylfhd" path="res://ship.tscn" id="1_mhsl7"]
 [ext_resource type="Script" path="res://root.gd" id="1_v85q6"]
 [ext_resource type="Script" path="res://free_cam.gd" id="2_n7a5q"]
@@ -46,3 +47,5 @@ script = ExtResource("2_n7a5q")
 metadata/_edit_group_ = true
 
 [node name="Camera2D" type="Camera2D" parent="FreeCam"]
+[node name="Ship2" parent="." instance=ExtResource("1_mhsl7")]
+position = Vector2(1987, 624)
