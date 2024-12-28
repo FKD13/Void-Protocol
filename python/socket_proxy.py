@@ -1,5 +1,6 @@
 import asyncio
 import websockets
+from uuid import uuid4
 
 from websockets import serve
 
@@ -9,7 +10,8 @@ game_servers = set()  # Clients of type B
 
 async def handler(websocket):
     # Assume the client is of type A initially
-    a_clients.add(websocket)
+    clients.add(websocket)
+
     try:
         async for message in websocket:
             print(f"Got message: {message}")
@@ -24,7 +26,7 @@ async def handler(websocket):
                 # Broadcast messages from type A clients to type B clients
                 if websocket in clients:  # Ensure sender is of type A
                     await asyncio.gather(
-                        *[b.send(message) for game_server in game_servers]
+                        *[game_server.send(message) for game_server in game_servers]
                     )
                 if websocket in game_servers:
                     pass

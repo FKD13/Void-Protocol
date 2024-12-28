@@ -15,7 +15,12 @@ func _process(delta):
 			is_announced = true
 			
 		while socket.get_available_packet_count():
-			print("Packet: ", socket.get_packet())
+			var packet_data = socket.get_packet()
+			print("Packet: ", packet_data)
+			var msg_str = packet_data.get_string_from_utf8()
+			print(msg_str)
+			var msg_ojb = JSON.parse_string(msg_str)
+			print(msg_ojb)
 	elif state == WebSocketPeer.STATE_CLOSING:
 		# Keep polling to achieve proper close.
 		pass
