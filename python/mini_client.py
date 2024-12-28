@@ -1,7 +1,6 @@
 import asyncio
 import websockets
 import json
-import uuid
 
 from random import random, seed, choice
 
@@ -60,7 +59,7 @@ async def websocket_client():
         # Connect to the WebSocket server
         async with websockets.connect(uri) as websocket:
             # Create registration packet with random UUID
-            registration_packet = {"type": "registration", "value": str(uuid.uuid4())}
+            registration_packet = {"type": "registration", "value": ""}
 
             # Send registration packet
             await websocket.send(json.dumps(registration_packet))

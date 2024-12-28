@@ -1,6 +1,6 @@
 import asyncio
 import websockets
-from uuid import uuid4
+import uuid
 import json
 from json import JSONDecodeError
 
@@ -35,7 +35,9 @@ async def handler(websocket):
                         continue
 
                     if obj["type"] == "registration":
-                        client_id = obj["value"]
+                        # client_id = obj["value"]
+                        client_id = str(uuid.uuid4())
+                        await websocket.send(json.dumps({"type": "registration_ack", "value": client_id}))
 
                         if client_id in clients.values():
                             print("Received registration for already registered id. Ignoring...")
