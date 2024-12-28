@@ -67,10 +67,6 @@ async def websocket_client():
 
             await handler(websocket)
 
-            # # Keep listening for incoming messages
-            # while True:
-            #     message = await websocket.recv()
-
     except Exception as e:
         print(f"Error: {e}")
 

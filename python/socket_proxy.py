@@ -37,10 +37,14 @@ async def handler(websocket):
                     if obj["type"] == "registration":
                         # client_id = obj["value"]
                         client_id = str(uuid.uuid4())
-                        await websocket.send(json.dumps({"type": "registration_ack", "value": client_id}))
+                        await websocket.send(
+                            json.dumps({"type": "registration_ack", "value": client_id})
+                        )
 
                         if client_id in clients.values():
-                            print("Received registration for already registered id. Ignoring...")
+                            print(
+                                "Received registration for already registered id. Ignoring..."
+                            )
                             continue
 
                         clients[websocket] = client_id
@@ -49,7 +53,9 @@ async def handler(websocket):
                     if websocket in clients:
 
                         if clients[websocket] is None:
-                            print("Got a client action before registration. Ignoring...")
+                            print(
+                                "Got a client action before registration. Ignoring..."
+                            )
                             continue
 
                         obj["client_id"] = clients[websocket]
