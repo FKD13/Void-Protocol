@@ -9,16 +9,16 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if Input.is_key_pressed(KEY_RIGHT):
 		$Ship.thrust_right(1)
-		$Ship2.thrust_left(1)
+		#$Ship2.thrust_left(1)
 	else:
 		$Ship.thrust_right(0)
-		$Ship2.thrust_left(0)
+		#$Ship2.thrust_left(0)
 	if Input.is_key_pressed(KEY_LEFT):
 		$Ship.thrust_left(1)
-		$Ship2.thrust_right(1)
+		#$Ship2.thrust_right(1)
 	else:
 		$Ship.thrust_left(0)
-		$Ship2.thrust_right(0)
+		#l$Ship2.thrust_right(0)
 # 	if Input.is_key_pressed(KEY_SPACE):
 # 		thrust_forward()
 # 	if Input.is_key_pressed(KEY_K):

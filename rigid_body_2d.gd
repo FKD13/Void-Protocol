@@ -30,7 +30,7 @@ func _physics_process(delta: float) -> void:
 		get_tree().root.add_child(b)
 		b.position = position
 		b.rotation = $Barrel.rotation+rotation
-		b.launch($Barrel.rotation+rotation, 10000)
+		b.launch($Barrel.rotation+rotation, 10000, self)
 
 
 func thrust_right(percentage: float) -> void:
