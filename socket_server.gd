@@ -1,10 +1,14 @@
 extends Node
 
+var ship = preload("res://ship.tscn")
+
 var socket = WebSocketPeer.new()
 var is_announced = false
 
+@export var URL: String = "ws://192.168.0.139:7000"
+
 func _ready():
-	socket.connect_to_url("ws://127.0.0.1:7000")
+	socket.connect_to_url(URL)
 
 func _process(delta):
 	socket.poll()
@@ -16,11 +20,11 @@ func _process(delta):
 			
 		while socket.get_available_packet_count():
 			var packet_data = socket.get_packet()
-			print("Packet: ", packet_data)
 			var msg_str = packet_data.get_string_from_utf8()
 			print(msg_str)
-			var msg_ojb = JSON.parse_string(msg_str)
-			print(msg_ojb)
+			_handle_message(JSON.parse_string(msg_str))
+	elif state == WebSocketPeer.STATE_CONNECTING:
+		pass
 	elif state == WebSocketPeer.STATE_CLOSING:
 		# Keep polling to achieve proper close.
 		pass
@@ -28,4 +32,62 @@ func _process(delta):
 		var code = socket.get_close_code()
 		var reason = socket.get_close_reason()
 		print("WebSocket closed with code: %d, reason %s. Clean: %s" % [code, reason, code != -1])
-		set_process(false) # Stop processing.
+		is_announced = false
+		socket.connect_to_url(URL)
+		
+		# set_process(false) # Stop processing.
+
+func _handle_message(message: Dictionary):
+	match message.type:
+		"registration":
+			_registration(message)
+		"turn_right":
+			_turn_right(message)
+		"turn_left":
+			_turn_left(message)
+		"thrust_forward":
+			_thrust_forward(message)
+		"gun_turn_right":
+			_gun_turn_right(message)
+		"gun_turn_left":
+			_gun_turn_left(message)
+		"gun_shoot":
+			_gun_shoot(message)
+		var unkown_action:
+			print("Got unkown action: %s" % [unkown_action])
+
+func _registration(message: Dictionary):
+	var new_ship = ship.instantiate()
+	new_ship.name = message.client_id
+	
+	$ShipContainer.add_child(new_ship)
+
+func _turn_right(message: Dictionary):
+	var current_ship = $ShipContainer.get_node(message.client_id)
+	if current_ship != null:
+		current_ship.thrust_right(message.value)
+
+func _turn_left(message: Dictionary):
+	var current_ship = $ShipContainer.get_node(message.client_id)
+	if current_ship != null:
+		current_ship.thrust_left(message.value)
+
+func _thrust_forward(message: Dictionary):
+	var current_ship = $ShipContainer.get_node(message.client_id)
+	if current_ship != null:
+		current_ship.thrust_forward(message.value)
+
+func _gun_turn_right(message: Dictionary):
+	var current_ship = $ShipContainer.get_node(message.client_id)
+	if current_ship != null:
+		current_ship.gun_right(message.value)
+
+func _gun_turn_left(message: Dictionary):
+	var current_ship = $ShipContainer.get_node(message.client_id)
+	if current_ship != null:
+		current_ship.gun_left(message.value)
+
+func _gun_shoot(message: Dictionary):
+	var current_ship = $ShipContainer.get_node(message.client_id)
+	if current_ship != null:
+		current_ship.gun_shoot()

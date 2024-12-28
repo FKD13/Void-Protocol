@@ -26,6 +26,6 @@ func _process(delta: float) -> void:
 # 	if Input.is_key_pressed(KEY_J):
 # 		gun_left()
 	if Input.is_key_pressed(KEY_L):
-		$Ship.gun_shoot_request(true)
+		$Ship.gun_shoot()
 	if Input.is_key_pressed(KEY_M):
-		$Ship2.gun_shoot_request(true)
+		$Ship2.gun_shoot()

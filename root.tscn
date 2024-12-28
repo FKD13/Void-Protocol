@@ -31,6 +31,15 @@ script = ExtResource("1_v85q6")
 [node name="Server" type="Node" parent="."]
 script = ExtResource("5_exiiw")
 
+[node name="ShipContainer" type="Node2D" parent="Server"]
+script = ExtResource("5_7hd3b")
+
+[node name="Ship2" parent="Server/ShipContainer" instance=ExtResource("1_mhsl7")]
+position = Vector2(1987, 624)
+
+[node name="Ship" parent="Server/ShipContainer" instance=ExtResource("1_mhsl7")]
+position = Vector2(1078, 622)
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 layer = -1
 
@@ -48,12 +57,3 @@ script = ExtResource("2_n7a5q")
 metadata/_edit_group_ = true
 
 [node name="Camera2D" type="Camera2D" parent="FreeCam"]
-
-[node name="ShipContainer" type="Node2D" parent="."]
-script = ExtResource("5_7hd3b")
-
-[node name="Ship2" parent="ShipContainer" instance=ExtResource("1_mhsl7")]
-position = Vector2(1987, 624)
-
-[node name="Ship" parent="ShipContainer" instance=ExtResource("1_mhsl7")]
-position = Vector2(1078, 622)

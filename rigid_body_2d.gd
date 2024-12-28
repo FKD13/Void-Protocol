@@ -19,9 +19,7 @@ func _physics_process(delta: float) -> void:
 	# Barrel Rotation
 	$Barrel.rotate(delta * 0.1 * (-_gun_left * _gun_right))
 	# Shoot
-	var now = Time.get_ticks_msec()
-	if _gun_shoot and now - _last_shot > 1000:
-		_last_shot = now
+	if _gun_shoot:
 		_gun_shoot = false
 		# Move ship
 		apply_central_force(10000*Vector2(cos($Barrel.rotation+rotation-PI), sin($Barrel.rotation+rotation-PI)))
@@ -53,6 +51,8 @@ func gun_left(percentage: float) -> void:
 	if 0 <= percentage and percentage <= 1:
 		_gun_left = percentage
 
-func gun_shoot_request(shoot: bool) -> void:
-	_gun_shoot = shoot
-	
+func gun_shoot() -> void:
+	var now = Time.get_ticks_msec()
+	if now - _last_shot > 1000:
+		_last_shot = now
+		_gun_shoot = true
