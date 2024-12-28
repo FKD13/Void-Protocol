@@ -1,9 +1,9 @@
 import asyncio
-import websockets
-import uuid
 import json
+import uuid
 from json import JSONDecodeError
 
+import websockets
 from websockets import serve
 
 # Dictionaries to manage client connections

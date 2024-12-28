@@ -1,8 +1,8 @@
 import asyncio
-import websockets
 import json
+from random import choice, random, seed
 
-from random import random, seed, choice
+import websockets
 
 seed(1234)
 
