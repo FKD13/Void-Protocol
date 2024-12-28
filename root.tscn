@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://h0aetvmb4fpc"]
+[gd_scene load_steps=9 format=3 uid="uid://h0aetvmb4fpc"]
 
 [ext_resource type="PackedScene" uid="uid://hcfc0itylfhd" path="res://ship.tscn" id="1_mhsl7"]
 [ext_resource type="Script" path="res://root.gd" id="1_v85q6"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" path="res://local_input.gd" id="5_7hd3b"]
 [ext_resource type="Shader" path="res://background_space_shader.gdshader" id="5_68052"]
 [ext_resource type="Script" path="res://socket_server.gd" id="5_exiiw"]
+[ext_resource type="Script" path="res://hud.gd" id="7_27mjm"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3b7fc"]
 shader = ExtResource("5_68052")
@@ -56,4 +57,38 @@ position = Vector2(731, 438)
 script = ExtResource("2_n7a5q")
 metadata/_edit_group_ = true
 
-[node name="Camera2D" type="Camera2D" parent="FreeCam"]
+[node name="Camera2D" type="Camera2D" parent="FreeCam" groups=["camera"]]
+
+[node name="HUD" type="CanvasLayer" parent="."]
+script = ExtResource("7_27mjm")
+
+[node name="Label" type="Label" parent="HUD"]
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -23.0
+offset_right = 40.0
+grow_vertical = 0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HUD"]
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="prevship" type="Button" parent="HUD/HBoxContainer"]
+layout_mode = 2
+text = "<"
+
+[node name="nextship" type="Button" parent="HUD/HBoxContainer"]
+layout_mode = 2
+text = ">"
+
+[connection signal="pressed" from="HUD/HBoxContainer/prevship" to="HUD" method="_on_prevship_pressed"]
+[connection signal="pressed" from="HUD/HBoxContainer/nextship" to="HUD" method="_on_nextship_pressed"]

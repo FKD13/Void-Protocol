@@ -12,6 +12,10 @@ game_servers = set()  # Clients of type B
 
 
 async def handler(websocket):
+    print("New connection received")
+    print(f"> {websocket}")
+
+
     # Assume the client is of type A initially
     clients[websocket] = None
 
@@ -77,7 +81,9 @@ async def handler(websocket):
         print(f"Error: {e}")
     finally:
         # Remove websocket from both sets when connection closes
-        del clients[websocket]
+        if websocket in clients:
+            del clients[websocket]
+        # del clients[websocket]
         game_servers.discard(websocket)
 
 

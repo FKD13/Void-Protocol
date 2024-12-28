@@ -30,7 +30,7 @@ async def producer():
 
 async def consumer_handler(websocket):
     async for message in websocket:
-        print("Got message: " + str(message))
+        # print("Got message: " + str(message))
         await consumer(message)
 
 
@@ -53,7 +53,7 @@ async def handler(websocket):
 
 
 async def websocket_client():
-    uri = "ws://localhost:7000"
+    uri = "ws://192.168.0.139:7000"
 
     try:
         # Connect to the WebSocket server

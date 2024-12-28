@@ -60,6 +60,17 @@ func _registration(message: Dictionary):
 	var new_ship = ship.instantiate()
 	new_ship.name = message.client_id
 	
+	# Add a camera so we can follow the ship
+	#var root = get_tree().root
+	#var freecam = get_node("/root/FreeCam/Camera2D")
+	#freecam.enabled = false
+	for cam in get_tree().get_nodes_in_group("camera"):
+		cam.enabled = false
+	var cam = Camera2D.new()
+	cam.add_to_group("camera")
+	cam.enabled = true
+	new_ship.add_child(cam)
+	
 	$ShipContainer.add_child(new_ship)
 
 func _turn_right(message: Dictionary):
