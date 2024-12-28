@@ -36,6 +36,7 @@ async def handler(websocket):
 
                     if obj["type"] == "registration":
                         # client_id = obj["value"]
+                        del obj["value"]
                         client_id = str(uuid.uuid4())
                         await websocket.send(
                             json.dumps({"type": "registration_ack", "value": client_id})
