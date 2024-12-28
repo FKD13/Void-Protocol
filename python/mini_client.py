@@ -11,9 +11,9 @@ actions = [
     {"type": "gun_turn_right", "value": lambda: random()},
     {"type": "gun_turn_left", "value": lambda: random()},
     {"type": "gun_shoot", "value": lambda: ""},
-    {"type": "gun_turn_left", "value": lambda: random()},
-    {"type": "gun_turn_left", "value": lambda: random()},
-    {"type": "gun_turn_left", "value": lambda: random()},
+    {"type": "turn_right", "value": lambda: random()},
+    {"type": "turn_left", "value": lambda: random()},
+    {"type": "thrust_forward", "value": lambda: random()},
 ]
 import time
 
