@@ -38,3 +38,6 @@ angular_velocity_max = 40.0
 scale_amount_min = 4.0
 scale_amount_max = 15.0
 color_ramp = SubResource("Gradient_w3y7l")
+
+[node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
+enabled = false

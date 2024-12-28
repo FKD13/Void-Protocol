@@ -15,7 +15,6 @@ async def handler(websocket):
     print("New connection received")
     print(f"> {websocket}")
 
-
     # Assume the client is of type A initially
     clients[websocket] = None
 

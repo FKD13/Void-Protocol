@@ -66,10 +66,7 @@ func _registration(message: Dictionary):
 	#freecam.enabled = false
 	for cam in get_tree().get_nodes_in_group("camera"):
 		cam.enabled = false
-	var cam = Camera2D.new()
-	cam.add_to_group("camera")
-	cam.enabled = true
-	new_ship.add_child(cam)
+	new_ship.get_node("Camera2D").enabled = true
 	
 	$ShipContainer.add_child(new_ship)
 
