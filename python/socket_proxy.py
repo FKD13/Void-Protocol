@@ -1,16 +1,19 @@
 import asyncio
 import websockets
 from uuid import uuid4
+import json
+from json import JSONDecodeError
 
 from websockets import serve
 
 # Dictionaries to manage client connections
-clients = set()  # Clients of type A
+clients = dict()  # Clients of type A
 game_servers = set()  # Clients of type B
+
 
 async def handler(websocket):
     # Assume the client is of type A initially
-    clients.add(websocket)
+    clients[websocket] = None
 
     try:
         async for message in websocket:
@@ -19,29 +22,61 @@ async def handler(websocket):
             if message == "TYPE_B":
                 print("Server connected")
                 # Move client to B list
-                clients.remove(websocket)
+                del clients[websocket]
                 game_servers.add(websocket)
-                await websocket.send("You are now type B")
+                await websocket.send(
+                    json.dumps({"type": "notice", "value": "You are the gameserver"})
+                )
             else:
-                # Broadcast messages from type A clients to type B clients
-                if websocket in clients:  # Ensure sender is of type A
-                    await asyncio.gather(
-                        *[game_server.send(message) for game_server in game_servers]
-                    )
-                if websocket in game_servers:
+                try:
+                    obj = json.loads(message)
+                    if "type" not in obj:
+                        # Invalid message. Every message should have a type
+                        continue
+
+                    if obj["type"] == "registration":
+                        client_id = obj["value"]
+
+                        if client_id in clients.values():
+                            print("Received registration for already registered id. Ignoring...")
+                            continue
+
+                        clients[websocket] = client_id
+
+                    # Broadcast messages from clients to the game servers
+                    if websocket in clients:
+
+                        if clients[websocket] is None:
+                            print("Got a client action before registration. Ignoring...")
+                            continue
+
+                        obj["client_id"] = clients[websocket]
+                        new_msg = json.dumps(obj)
+                        print("Sending msg to gameserver: " + new_msg)
+                        await asyncio.gather(
+                            *[game_server.send(new_msg) for game_server in game_servers]
+                        )
+                    if websocket in game_servers:
+                        pass
+                        # TODO Francis: game_servers can send targetted messages
+
+                except JSONDecodeError as e:
+                    # Invalid json message
                     pass
-                    # TODO Francis: game_servers can send targetted messages
+
     except Exception as e:
         print(f"Error: {e}")
     finally:
         # Remove websocket from both sets when connection closes
-        clients.discard(websocket)
+        del clients[websocket]
         game_servers.discard(websocket)
 
+
 async def main():
-    async with serve(handler, "127.0.0.1", 7000) as server:
-        print("WebSocket server started on ws://localhost:7000")
+    async with serve(handler, "0.0.0.0", 7000) as server:
+        print("WebSocket server started on ws://0.0.0.0:7000")
         await server.wait_closed()
+
 
 if __name__ == "__main__":
     asyncio.run(main())
