@@ -1,9 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://h0aetvmb4fpc"]
+[gd_scene load_steps=8 format=3 uid="uid://h0aetvmb4fpc"]
 
 [ext_resource type="PackedScene" uid="uid://hcfc0itylfhd" path="res://ship.tscn" id="1_mhsl7"]
 [ext_resource type="Script" path="res://root.gd" id="1_v85q6"]
 [ext_resource type="Script" path="res://free_cam.gd" id="2_n7a5q"]
-[ext_resource type="Script" path="res://local_input.gd" id="5_7hd3b"]
 [ext_resource type="Shader" path="res://background_space_shader.gdshader" id="5_68052"]
 [ext_resource type="Script" path="res://socket_server.gd" id="5_exiiw"]
 [ext_resource type="Script" path="res://hud.gd" id="7_27mjm"]
@@ -33,7 +32,6 @@ script = ExtResource("1_v85q6")
 script = ExtResource("5_exiiw")
 
 [node name="ShipContainer" type="Node2D" parent="Server"]
-script = ExtResource("5_7hd3b")
 
 [node name="Ship2" parent="Server/ShipContainer" instance=ExtResource("1_mhsl7")]
 position = Vector2(1987, 624)

@@ -1,4 +1,5 @@
 extends Node2D
+var _nickname = "freecam"
 
 func _process(delta: float) -> void:
 	if Input.is_action_pressed("ui_left"):

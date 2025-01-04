@@ -7,8 +7,7 @@ import websockets
 seed(1234)
 
 actions = [
-    {"type": "gun_turn_right", "value": lambda: random()},
-    {"type": "gun_turn_left", "value": lambda: random()},
+    {"type": "gun_turn", "value": lambda: random() * 2 - 1},
     {"type": "gun_shoot", "value": lambda: ""},
     {"type": "turn_right", "value": lambda: random()},
     {"type": "turn_left", "value": lambda: random()},
@@ -53,7 +52,7 @@ async def handler(websocket):
 
 
 async def websocket_client():
-    uri = "ws://192.168.0.139:7000"
+    uri = "ws://localhost:7000"
 
     try:
         # Connect to the WebSocket server

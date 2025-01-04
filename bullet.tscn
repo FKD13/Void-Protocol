@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c0qlmobmwsixb"]
+[gd_scene load_steps=6 format=3 uid="uid://c0qlmobmwsixb"]
 
 [ext_resource type="Script" path="res://bullet.gd" id="1_q3wm2"]
 
@@ -15,7 +15,11 @@ point_count = 2
 offsets = PackedFloat32Array(0, 0.247839, 0.599424, 0.778098, 1)
 colors = PackedColorArray(1, 1, 1, 1, 1, 0.821765, 0.311124, 1, 0.843531, 0, 0.0403774, 1, 0.267304, 0.267304, 0.267304, 1, 0.267, 0.267, 0.267, 0)
 
-[node name="Bullet" type="RigidBody2D"]
+[sub_resource type="Gradient" id="Gradient_gda7c"]
+offsets = PackedFloat32Array(0, 0.631124, 0.824207, 1)
+colors = PackedColorArray(1, 1, 1, 1, 0.548165, 0.548165, 0.548165, 1, 0.443, 0.443, 0.443, 0.902, 0.368, 0.368, 0.368, 0)
+
+[node name="Bullet" type="RigidBody2D" groups=["bullets"]]
 collision_layer = 2
 collision_mask = 2
 mass = 0.5
@@ -32,7 +36,7 @@ shape = SubResource("RectangleShape2D_bny71")
 [node name="Polygon2D" type="Polygon2D" parent="."]
 polygon = PackedVector2Array(3, -3, 4, 0, 3, 3, 0, 4, -3, 3, -4, 0, -3, -3, 0, -4)
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+[node name="Tail" type="CPUParticles2D" parent="."]
 amount = 64
 lifetime = 0.5
 direction = Vector2(-1, 0)
@@ -44,5 +48,21 @@ angle_curve = SubResource("Curve_ikj05")
 scale_amount_min = 4.0
 scale_amount_max = 10.0
 color_ramp = SubResource("Gradient_k3y8j")
+
+[node name="Explosion" type="CPUParticles2D" parent="."]
+emitting = false
+amount = 64
+lifetime = 20.0
+one_shot = true
+explosiveness = 1.0
+local_coords = true
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_max = 241.66
+angular_velocity_min = -40.0
+angular_velocity_max = 40.0
+scale_amount_min = 4.0
+scale_amount_max = 15.0
+color_ramp = SubResource("Gradient_gda7c")
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_collision"]

@@ -16,7 +16,7 @@ async def handler(websocket):
     print(f"> {websocket}")
 
     # Assume the client is of type A initially
-    clients[websocket] = None
+    # clients[websocket] = None
 
     try:
         async for message in websocket:
@@ -25,7 +25,7 @@ async def handler(websocket):
             if message == "TYPE_B":
                 print("Server connected")
                 # Move client to B list
-                del clients[websocket]
+                # del clients[websocket]
                 game_servers.add(websocket)
                 await websocket.send(
                     json.dumps({"type": "notice", "value": "You are the gameserver"})
@@ -39,7 +39,7 @@ async def handler(websocket):
 
                     if obj["type"] == "registration":
                         # client_id = obj["value"]
-                        del obj["value"]
+                        # del obj["value"]
                         client_id = str(uuid.uuid4())
                         await websocket.send(
                             json.dumps({"type": "registration_ack", "value": client_id})
@@ -69,8 +69,9 @@ async def handler(websocket):
                             *[game_server.send(new_msg) for game_server in game_servers]
                         )
                     if websocket in game_servers:
-                        pass
-                        # TODO Francis: game_servers can send targetted messages
+                        await asyncio.gather(
+                            *[client.send(message) for client in clients]
+                        )
 
                 except JSONDecodeError as e:
                     # Invalid json message

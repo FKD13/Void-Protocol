@@ -1,12 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://hcfc0itylfhd"]
+[gd_scene load_steps=2 format=3 uid="uid://hcfc0itylfhd"]
 
 [ext_resource type="Script" path="res://rigid_body_2d.gd" id="1_pmm3k"]
 
-[sub_resource type="Gradient" id="Gradient_w3y7l"]
-offsets = PackedFloat32Array(0, 0.631124, 0.824207, 1)
-colors = PackedColorArray(1, 1, 1, 1, 0.548165, 0.548165, 0.548165, 1, 0.443, 0.443, 0.443, 0.902, 0.368, 0.368, 0.368, 0)
-
-[node name="Ship" type="RigidBody2D"]
+[node name="Ship" type="RigidBody2D" groups=["ships"]]
 mass = 4.0
 script = ExtResource("1_pmm3k")
 
@@ -23,21 +19,6 @@ scale = Vector2(2, 2)
 color = Color(0.587078, 0.587078, 0.587078, 1)
 polygon = PackedVector2Array(9, 1, -1, 1, -1, -1, 9, -1)
 
-[node name="Explosion" type="CPUParticles2D" parent="."]
-emitting = false
-amount = 64
-lifetime = 20.0
-one_shot = true
-explosiveness = 1.0
-local_coords = true
-spread = 180.0
-gravity = Vector2(0, 0)
-initial_velocity_max = 241.66
-angular_velocity_min = -40.0
-angular_velocity_max = 40.0
-scale_amount_min = 4.0
-scale_amount_max = 15.0
-color_ramp = SubResource("Gradient_w3y7l")
-
 [node name="Camera2D" type="Camera2D" parent="." groups=["camera"]]
 enabled = false
+zoom = Vector2(0.6, 0.6)

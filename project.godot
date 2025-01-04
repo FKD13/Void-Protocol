@@ -20,6 +20,11 @@ config/icon="res://icon.svg"
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
 
+[global_group]
+
+ships="All the ships"
+bullets="All the bullets"
+
 [physics]
 
 2d/default_gravity_vector=Vector2(0, 0)
