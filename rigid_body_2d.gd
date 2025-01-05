@@ -19,6 +19,9 @@ func _ready() -> void:
 		randi_range(-1000, 1000),
 		randi_range(-1000, 1000)
 	)
+	$ShipFrame/CentralBody/Thruster.emitting = false
+	$ShipFrame/LeftBooster/Thruster.emitting = false
+	$ShipFrame/RightBooster/Thruster.emitting = false
 
 func _physics_process(delta: float) -> void:
 	# Rotational thrust
@@ -26,26 +29,19 @@ func _physics_process(delta: float) -> void:
 	# Forward thrust
 	apply_central_force(delta * 80000 * (_thrust_forward) * Vector2(cos(rotation), sin(rotation)))
 	# Barrel Rotation
-	$Barrel.rotate(delta * 0.2 * _gun_turn)
+	$ShipFrame/Barrel.rotate(delta * 0.2 * _gun_turn)
 	# Shoot
 	if _gun_shoot:
 		_gun_shoot = false
 		# Move ship
-		apply_central_force(10000*Vector2(cos($Barrel.rotation+rotation-PI), sin($Barrel.rotation+rotation-PI)))
+		apply_central_force(10000*Vector2(cos($ShipFrame/Barrel.rotation+rotation-PI), sin($ShipFrame/Barrel.rotation+rotation-PI)))
 		# Spawn and move bullet
 		var bullet: Bullet = Bullet.instantiate()
 		get_node("/root/root/Server/BulletContainer").add_child(bullet)
 		
 		bullet.global_position = global_position
 		bullet.linear_velocity = linear_velocity
-		bullet.launch($Barrel.rotation+rotation, 10000, self)
-		
-		
-		#get_tree().root.add_child(b)
-		#b.linear_velocity = linear_velocity
-		#b.position = position
-		#b.rotation = $Barrel.rotation+rotation
-		#b.launch($Barrel.rotation+rotation, 10000, self)
+		bullet.launch($ShipFrame/Barrel.rotation+rotation, 10000, self)
 	
 	if Time.get_ticks_msec() - _timestamp_last_cmd > 5_000:
 		modulate = Color.WEB_GRAY
@@ -59,16 +55,25 @@ func thrust_right(percentage: float) -> void:
 	_update_last_command()
 	if 0 <= percentage and percentage <= 1:
 		_thrust_right = percentage
+	
+	$ShipFrame/LeftBooster/Thruster.emitting = percentage != 0
+	$ShipFrame/LeftBooster/Thruster.amount = round(percentage * 128)
 
 func thrust_left(percentage: float) -> void:
 	_update_last_command()
 	if 0 <= percentage and percentage <= 1:
 		_thrust_left = percentage
+	
+	$ShipFrame/RightBooster/Thruster.emitting = percentage != 0
+	$ShipFrame/RightBooster/Thruster.amount = round(percentage * 128)
 
 func thrust_forward(percentage: float) -> void:
 	_update_last_command()
 	if 0 <= percentage and percentage <= 1:
 		_thrust_forward = percentage
+	
+	$ShipFrame/CentralBody/Thruster.emitting = percentage != 0
+	$ShipFrame/CentralBody/Thruster.amount = round(percentage * 128)
 
 func gun_turn(percentage: float) -> void:
 	_update_last_command()

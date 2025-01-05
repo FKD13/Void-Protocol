@@ -43,7 +43,7 @@ func _process(delta):
 						_round_to_dec(ship.linear_velocity.y, 6)
 					],
 					"angular_velocity": _round_to_dec(ship.angular_velocity, 6),
-					"gun_rotation": _round_to_dec(ship.get_node("Barrel").rotation, 4),
+					"gun_rotation": _round_to_dec(ship.get_node("ShipFrame/Barrel").rotation, 4),
 				})
 			
 			for bullet: RigidBody2D in get_tree().get_nodes_in_group("bullets"):
