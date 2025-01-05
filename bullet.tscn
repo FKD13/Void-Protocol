@@ -65,4 +65,11 @@ scale_amount_min = 4.0
 scale_amount_max = 15.0
 color_ramp = SubResource("Gradient_gda7c")
 
+[node name="Lifetime" type="Timer" parent="."]
+process_callback = 0
+wait_time = 300.0
+autostart = true
+
 [connection signal="body_entered" from="Area2D" to="." method="_on_collision"]
+[connection signal="finished" from="Explosion" to="." method="_life_ended"]
+[connection signal="timeout" from="Lifetime" to="." method="_life_ended"]

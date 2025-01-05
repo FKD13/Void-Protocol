@@ -1,6 +1,7 @@
-extends RigidBody2D
+@icon("res://icons/ship.png")
+class_name Ship extends RigidBody2D
 
-var bullet = preload("res://bullet.tscn")
+const Bullet = preload("res://bullet.tscn")
 
 var _last_shot: int = 0
 
@@ -32,12 +33,19 @@ func _physics_process(delta: float) -> void:
 		# Move ship
 		apply_central_force(10000*Vector2(cos($Barrel.rotation+rotation-PI), sin($Barrel.rotation+rotation-PI)))
 		# Spawn and move bullet
-		var b: RigidBody2D = bullet.instantiate()
-		get_tree().root.add_child(b)
-		b.linear_velocity = linear_velocity
-		b.position = position
-		b.rotation = $Barrel.rotation+rotation
-		b.launch($Barrel.rotation+rotation, 10000, self)
+		var bullet: Bullet = Bullet.instantiate()
+		get_node("/root/root/Server/BulletContainer").add_child(bullet)
+		
+		bullet.global_position = global_position
+		bullet.linear_velocity = linear_velocity
+		bullet.launch($Barrel.rotation+rotation, 10000, self)
+		
+		
+		#get_tree().root.add_child(b)
+		#b.linear_velocity = linear_velocity
+		#b.position = position
+		#b.rotation = $Barrel.rotation+rotation
+		#b.launch($Barrel.rotation+rotation, 10000, self)
 	
 	if Time.get_ticks_msec() - _timestamp_last_cmd > 5_000:
 		modulate = Color.WEB_GRAY
@@ -73,3 +81,9 @@ func gun_shoot() -> void:
 	if now - _last_shot > 1000:
 		_last_shot = now
 		_gun_shoot = true
+
+func destroy() -> void:
+	var free_cam = get_node("/root/root/FreeCam")
+	free_cam.position = position
+	free_cam.get_node("Camera2D").enabled = true
+	queue_free()
