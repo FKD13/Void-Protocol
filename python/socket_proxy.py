@@ -5,7 +5,7 @@ from json import JSONDecodeError
 
 import websockets
 from websockets import serve
-
+import json
 # Dictionaries to manage client connections
 clients = dict()  # Clients of type A
 game_servers = set()  # Clients of type B

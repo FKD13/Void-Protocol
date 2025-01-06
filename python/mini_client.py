@@ -15,6 +15,8 @@ actions = [
 ]
 import time
 
+UUID = str(uuid.uuid4())
+
 
 async def consumer(message):
     print(f"Received: {message}")
@@ -24,7 +26,7 @@ async def producer():
     await asyncio.sleep(1)
     action = choice(actions)
 
-    return json.dumps({"type": action["type"], "value": action["value"]()})
+    return json.dumps({"type": action["type"], "value": action["value"](), "client_id": UUID})
 
 
 async def consumer_handler(websocket):
@@ -52,14 +54,13 @@ async def handler(websocket):
 
 
 async def websocket_client():
-    uri = "ws://localhost:7000"
+    uri = "ws://192.168.0.139:7000"
 
     try:
         # Connect to the WebSocket server
         async with websockets.connect(uri) as websocket:
             # Create registration packet with random UUID
-            registration_packet = {"type": "registration", "value": ""}
-
+            registration_packet = {"type": "registration", "value": "mini-client"}
             # Send registration packet
             await websocket.send(json.dumps(registration_packet))
             print(f"Sent: {registration_packet}")
